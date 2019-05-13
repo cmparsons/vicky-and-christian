@@ -83,7 +83,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  /* background-image: url("./assets/desktop.jpg"); */
+  animation: fadeIn 0.5s;
 }
 
 .hero-text {
@@ -109,4 +109,13 @@
 .hero-text button:hover {
   background-color: #555;
   color: white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

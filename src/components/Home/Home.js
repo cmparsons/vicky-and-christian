@@ -1,38 +1,33 @@
 import React from "react";
 import {
-  Card,
   Button,
   Container,
-  Divider,
   Grid,
   Header,
-  // Icon,
   Image,
-  List,
-  // Menu,
-  Responsive,
   Segment
-  // Sidebar,
-  // Visibility,
 } from "semantic-ui-react";
+import bedSvg from "../../assets/Bed.svg";
+
 import "./Home.css";
 import CountDown from "../CountDown";
 import DesktopContainer from "./DesktopContainer";
 import MobileContainer from "./MobileContainer";
 
-import cwr from '../../assets/cwr.jpg';
+import cwr from "../../assets/cwr.jpg";
+import { Link } from "@reach/router";
 
 export default function Home() {
   return (
     <>
       <div className="hero-image">
         <div className="hero-text">
-          <h1 style={{ fontSize: 50 }}>
+          <Header as="h1" inverted style={{ fontSize: "3.5em" }}>
             Vicky & Christian{" "}
             <span role="img" aria-label="Wedding">
               💒
             </span>
-          </h1>
+          </Header>
           {/* <h2>11838 Civil War Ave, Carthage, MO 64836</h2> */}
           <h4 style={{ fontSize: 25 }}>
             Saturday, November 16, 2019
@@ -40,63 +35,125 @@ export default function Home() {
             3:00 PM
           </h4>
           <CountDown />
-          {/* <button>RSVP</button> */}
-          <Button inverted>RSVP Here</Button>
+          <Button inverted as={Link} to="/rsvp">
+            RSVP Here
+          </Button>
         </div>
       </div>
-      <Grid
-        container
-        stackable
-        verticalAlign="middle"
-        style={{ paddingTop: 150, paddingBottom: 150 }}
-      >
-        <Grid.Row>
-          <Grid.Column width={8}>
-            <Header as="h2" style={{ fontSize: "2em" }}>
-              Ceremony and Reception
-            </Header>
-            <Header as="h3">Civil War Ranch</Header>
-            <Header as="h4">11838 Civil War Ave, Carthage, MO 64836</Header>
-            {/* <p style={{ fontSize: "1.33em" }}>
+
+      <Segment style={{ padding: "8em 0em" }} vertical>
+        <Grid container stackable verticalAlign="middle">
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <Header as="h2" style={{ fontSize: "2em" }}>
+                Ceremony and Reception
+              </Header>
+              <Header as="h3">
+                Civil War Ranch
+                <br />
+                11838 Civil War Ave, Carthage, MO 64836
+              </Header>
+              <p style={{ fontSize: "1.1em" }}>
+                We are excited for you to join us for our big day! The ceremony
+                will begin at three o'clock in the afternoon and be held outside
+                (weather permitting{" "}
+                <span role="img" aria-label="Fingers Crossed" />
+                🤞) by the pond. If the weather happens to be against us that
+                day, then the ceremony will be held upstairs in the barn. The
+                reception will follow in the barn.
+              </p>
+              {/* <p style={{ fontSize: "1.33em" }}>
             </p> */}
-            <Header as="h3" style={{ fontSize: "2em" }}>
+              {/* <Header as="h3" style={{ fontSize: "2em" }}>
               We Make Bananas That Can Dance
             </Header>
             <p style={{ fontSize: "1.33em" }}>
               Yes that's right, you thought it was the stuff of dreams, but even
               bananas can be bioengineered.
-            </p>
-          </Grid.Column>
-          <Grid.Column floated="right" width={6}>
-            <Image
-              bordered
-              rounded
-              size="large"
-              src={cwr}
-            />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column textAlign="center">
-            <Button size="huge">Check Them Out</Button>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+            </p> */}
+            </Grid.Column>
+            <Grid.Column floated="right" width={6}>
+              <Image bordered rounded size="large" src={cwr} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column textAlign="center">
+              <Button
+                size="huge"
+                as="a"
+                href="https://www.google.com/maps/place/Civil+War+Ranch/@37.22527,-94.3282057,17z/data=!3m1!4b1!4m5!3m4!1s0x87c62a08a5f73041:0xc97b74f233f38d59!8m2!3d37.22527!4d-94.326017"
+                target="_blank"
+              >
+                Get Directions
+              </Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
 
-      {/* <p>Page Content..</p> */}
+      <Segment style={{ padding: "8em 0em" }} vertical>
+        <Container text>
+          <Header as="h3" style={{ fontSize: "2em" }} textAlign="center">
+            Registry
+          </Header>
+          <p style={{ fontSize: "1.33em" }}>
+            Your presence is enough of a present to us! But for those of you who
+            are stubborn, we've put together a wish-list to help you out.
+          </p>
+          <Grid style={{ padding: "1em 0em" }}>
+            <Grid.Row columns={3} centered>
+              <Image
+                src={bedSvg}
+                alt="Bed Bath and Beyond"
+                width="150"
+                height="150"
+                as="a"
+                href="https://www.bedbathandbeyond.com/store/giftregistry/viewregistryguest/547454763?eventType=Wedding"
+                target="_blank"
+              />
+            </Grid.Row>
+            {/* <img src={bedSvg}  alt="Bed Bath and Beyond" /> */}
+          </Grid>
+          {/* <Button as="a" size="large">
+            Read More
+          </Button> */}
+        </Container>
+      </Segment>
+
+      <Segment style={{ padding: "8em 0em" }} vertical>
+        <Container text>
+          <Header as="h3" style={{ fontSize: "2em" }} textAlign="center">
+            Contact Us
+          </Header>
+          <p style={{ fontSize: "1.2em" }}>
+            If you have any questions or concerns about the wedding, don't be
+            afraid to contact us!
+          </p>
+          <Grid style={{ padding: "1em 0em" }}>
+            <Grid.Row columns={2} centered>
+              <Grid.Column>
+                <Header size="small">Vicky Knight</Header>
+                <p>(417) 359 - 6843</p>
+              </Grid.Column>
+              <Grid.Column>
+                <Header size="small">Christian Parsons</Header>
+                <p>(417) 793 - 3165</p>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
+      </Segment>
+
+      <center>
+        <br />
+        <br />
+        &copy; 2019 Christian Parsons 👨‍💻
+        <br />
+        <br />
+      </center>
     </>
   );
 }
-// import PropTypes from 'prop-types'
-
-// Heads up!
-// We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
-// For more advanced usage please check Responsive docs under the "Usage" section.
-const getWidth = () => {
-  const isSSR = typeof window === "undefined";
-
-  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
-};
 
 const ResponsiveContainer = ({ children }) => (
   <div>
