@@ -1,0 +1,112 @@
+/* .App {
+  text-align: center;
+  background: #fff;
+  min-height: 480px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.wedding-page {
+  display: block;
+  position: relative;
+  height: 100%;
+}
+
+.cover-photo {
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  width: 61%;
+  max-width: 61%;
+  transition: all cubic-bezier(.19,1,.22,1) .4s;
+}
+
+.wedding-content {
+  background-image: url('./bottom.png'), url('./top.png'), url('./bkg.jpg');
+  background-position: center bottom, center top, center top;
+  background-size: contain, contain, cover;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
+.wedding-info {
+  position: static;
+  background: #fff;
+  color: #333;
+  width: 39%;
+  margin-left: auto;
+}
+
+.info {
+  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  word-wrap: break-word;
+  justify-content: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+.hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../assets/desktop.jpg");
+  height: 90vh;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  /* background-image: url("./assets/desktop.jpg"); */
+}
+
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.hero-text button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 10px 25px;
+  color: black;
+  background-color: #ddd;
+  text-align: center;
+  cursor: pointer;
+}
+
+.hero-text button:hover {
+  background-color: #555;
+  color: white;
+}
