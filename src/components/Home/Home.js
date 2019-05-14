@@ -11,8 +11,8 @@ import bedSvg from "../../assets/Bed.svg";
 
 import "./Home.css";
 import CountDown from "../CountDown";
-import DesktopContainer from "./DesktopContainer";
-import MobileContainer from "./MobileContainer";
+// import DesktopContainer from "./DesktopContainer";
+// import MobileContainer from "./MobileContainer";
 
 import cwr from "../../assets/cwr.jpg";
 import { Link } from "@reach/router";
@@ -155,12 +155,12 @@ export default function Home() {
   );
 }
 
-const ResponsiveContainer = ({ children }) => (
-  <div>
-    <DesktopContainer>{children}</DesktopContainer>
-    <MobileContainer>{children}</MobileContainer>
-  </div>
-);
+// const ResponsiveContainer = ({ children }) => (
+//   <div>
+//     <DesktopContainer>{children}</DesktopContainer>
+//     <MobileContainer>{children}</MobileContainer>
+//   </div>
+// );
 
 // const HomepageLayout = () => (
 //   <ResponsiveContainer>
