@@ -18,7 +18,7 @@ export default function RSVPForm() {
         contactInfo: ""
       }}
       onSubmit={(values, { setSubmitting }) => {
-        values.isAttending = values.isAttending === "true";
+        // values.isAttending = values.isAttending === "true";
 
         // const eventsRef = firebase.firestore().collection("event");
         // const querySnapshot = await eventsRef.get();

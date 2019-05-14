@@ -1,6 +1,7 @@
 import React from "react";
 import RSVPForm from "./RSVPForm";
 import { Container, Grid, Header, Segment } from "semantic-ui-react";
+import { Link } from "@reach/router";
 
 export default function RSVP() {
   return (
@@ -16,6 +17,9 @@ export default function RSVP() {
           <Segment stacked>
             <RSVPForm />
           </Segment>
+          <div style={{ textAlign: "center" }}>
+            <Link to="/">Go Home</Link>
+          </div>
         </Grid.Column>
       </Grid>
     </Container>
