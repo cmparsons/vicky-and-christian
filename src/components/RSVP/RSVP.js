@@ -14,7 +14,7 @@ export default function RSVP() {
             </span>
             RSVP
           </Header>
-          <Segment stacked>
+          <Segment raised>
             <RSVPForm />
           </Segment>
           <div style={{ textAlign: "center" }}>

@@ -10,3 +10,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+footer {
+  padding: 1.5em;
+  text-align: center;
+}

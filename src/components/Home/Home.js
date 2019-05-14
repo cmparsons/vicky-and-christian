@@ -143,14 +143,6 @@ export default function Home() {
           </Grid>
         </Container>
       </Segment>
-
-      <center>
-        <br />
-        <br />
-        &copy; 2019 Christian Parsons 👨‍💻
-        <br />
-        <br />
-      </center>
     </>
   );
 }
