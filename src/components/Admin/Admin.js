@@ -25,7 +25,7 @@ export default function Admin() {
   return (
     <>
       {isLoggedIn ? (
-        <Container style={{ height: "100vh" }}>
+        <Container>
           <GuestList />
           <div style={{ textAlign: "center" }}>
             <Link to="/">Go Home</Link>
