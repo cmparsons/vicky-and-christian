@@ -52,11 +52,14 @@ export default class Wizard extends React.Component {
   };
 
   render() {
-    const { children, apiError } = this.props;
+    const {
+      children,
+      apiState: { success, error }
+    } = this.props;
     const { page, values } = this.state;
     const activePage = React.Children.toArray(children)[page];
     const isLastPage = page === React.Children.count(children) - 1;
-    const hasApiError = apiError !== null;
+    const hasApiError = !success && error !== null;
     return (
       <Formik
         initialValues={values}
@@ -71,6 +74,7 @@ export default class Wizard extends React.Component {
             onSubmit={handleSubmit}
             loading={isSubmitting}
             error={hasApiError}
+            success={success}
           >
             {activePage}
             {page > 0 && (
@@ -87,9 +91,15 @@ export default class Wizard extends React.Component {
                 Next
               </Button>
             )}
-            {hasApiError && (
-              <Message error={hasApiError} header="Error" content={apiError} />
-            )}
+            {hasApiError ? (
+              <Message error={hasApiError} header="Error" content={error} />
+            ) : success ? (
+              <Message
+                success={success}
+                header="Success"
+                content="Your RSVP was successfully placed! You can update your RSVP anytime until the wedding."
+              />
+            ) : null}
           </Form>
         )}
       />

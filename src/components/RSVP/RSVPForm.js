@@ -12,9 +12,7 @@ import {
 } from "semantic-ui-react";
 import { Field, FieldArray, FormikConsumer } from "formik";
 import Wizard from "./Wizard";
-
-const wait = (delay = 2000) =>
-  new Promise(resolve => setTimeout(resolve, delay));
+import { navigate } from "@reach/router";
 
 const warn = (...args) =>
   process.env.NODE_ENV !== "production" && console.warn(...args);
@@ -91,8 +89,40 @@ function Focus({ children }) {
     : null;
 }
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "SUCCESS":
+      return {
+        success: true,
+        error: null
+      };
+    case "ERROR":
+      return {
+        success: false,
+        error: action.error
+      };
+    case "RESET":
+      return initialState;
+    default:
+      throw new Error(`Unknown action type: ${action.type}`);
+  }
+}
+
+const initialState = { success: false, error: null };
+
 export default function RSVPForm() {
-  const [apiError, setApiError] = React.useState(null);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  // Redirect back to the homepage after successfully RSVPing
+  React.useEffect(() => {
+    let timeout = null;
+    if (state.success) {
+      timeout = setTimeout(() => {
+        navigate("/");
+      }, 7000);
+    }
+    return () => timeout && clearTimeout(timeout);
+  }, [state.success, state.error]);
 
   return (
     <Wizard
@@ -105,7 +135,7 @@ export default function RSVPForm() {
         contactInfo: "",
         party: [{ firstName: "", lastName: "" }]
       }}
-      apiError={apiError}
+      apiState={state}
       onSubmit={(values, { setSubmitting }) => {
         const body = {
           ...values,
@@ -115,7 +145,7 @@ export default function RSVPForm() {
           )
         };
 
-        setApiError(null);
+        dispatch({ type: "RESET" });
 
         fetch(`${process.env.REACT_APP_FIREBASE_FUNCTIONS}/rsvp`, {
           method: "POST",
@@ -124,15 +154,36 @@ export default function RSVPForm() {
         })
           .then(
             res => {
-              res.json().then(result => {
-                console.log("result", result);
-              });
+              if (res.ok) {
+                console.log("OK");
+                dispatch({ type: "SUCCESS" });
+              } else if (res.status === 400) {
+                console.log("status", res.status, "statusText", res.statusText);
+                res.text().then(error => {
+                  dispatch({ type: "ERROR", error });
+                });
+              } else {
+                console.log("status", res.status, "statusText", res.statusText);
+                throw new Error("Network response was not ok.");
+              }
             },
             error => {
-              console.log("error", error);
-              setApiError(error);
+              console.error("api error", error);
+              dispatch({
+                type: "ERROR",
+                error:
+                  "A system error occurred. Check the developer's console for more information about the error."
+              });
             }
           )
+          .catch(error => {
+            console.error(error);
+            dispatch({
+              type: "ERROR",
+              error:
+                "Check the developer's console for more information about the error."
+            });
+          })
           .finally(() => {
             setSubmitting(false);
           });
@@ -163,6 +214,7 @@ export default function RSVPForm() {
             render={({ field, form }) => (
               <Form.Field
                 error={!!(form.touched.firstName && form.errors.firstName)}
+                required
               >
                 <label>First name</label>
                 <Focus>
@@ -191,6 +243,7 @@ export default function RSVPForm() {
               trigger={
                 <Form.Field
                   error={!!(form.touched.eventCode && form.errors.eventCode)}
+                  required={process.env.REACT_APP_EVENT_CODE !== ""}
                 >
                   <label>Event code</label>
                   <Input
