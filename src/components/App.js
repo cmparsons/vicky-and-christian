@@ -1,18 +1,16 @@
 import React from "react";
 import { Router } from "@reach/router";
-import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import { Dimmer, Loader } from "semantic-ui-react";
 import Home from "./Home/Home";
-import RSVP from "./RSVP/RSVP";
 
 const Admin = React.lazy(() => import("./Admin/Admin"));
+const RSVP = React.lazy(() => import("./RSVP/RSVP"));
 
 function Loading() {
   return (
-    <Segment style={{ height: "100vh" }}>
-      <Dimmer active inverted>
-        <Loader size="large" inverted />
-      </Dimmer>
-    </Segment>
+    <Dimmer active inverted style={{ height: "100vh" }}>
+      <Loader size="large" inverted />
+    </Dimmer>
   );
 }
 
