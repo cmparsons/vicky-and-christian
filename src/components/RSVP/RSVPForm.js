@@ -216,9 +216,14 @@ export default function RSVPForm() {
                 error={!!(form.touched.firstName && form.errors.firstName)}
                 required
               >
-                <label>First name</label>
+                <label htmlFor="firstName">First name</label>
                 <Focus>
-                  <Input {...field} required placeholder="First Name" />
+                  <Input
+                    {...field}
+                    id="firstName"
+                    required
+                    placeholder="First Name"
+                  />
                 </Focus>
                 <ErrorLabel name="firstName" />
               </Form.Field>
@@ -229,6 +234,7 @@ export default function RSVPForm() {
             render={({ field }) => (
               <Form.Input
                 {...field}
+                id="lastName"
                 required
                 placeholder="Last Name"
                 label="Last name"
@@ -245,9 +251,10 @@ export default function RSVPForm() {
                   error={!!(form.touched.eventCode && form.errors.eventCode)}
                   required={process.env.REACT_APP_EVENT_CODE !== ""}
                 >
-                  <label>Event code</label>
+                  <label htmlFor="eventCode">Event code</label>
                   <Input
                     {...field}
+                    id="eventCode"
                     icon="lock"
                     iconPosition="left"
                     placeholder="Event Code"
@@ -318,9 +325,12 @@ export default function RSVPForm() {
                 !!(form.touched.mailingAddress && form.errors.mailingAddress)
               }
             >
-              <label>What is your mailing address?</label>
+              <label htmlFor="mailingAddress">
+                What is your mailing address?
+              </label>
               <Focus>
                 <TextArea
+                  id="mailingAddress"
                   {...field}
                   placeholder="Please enter your mailing address"
                   rows={5}
@@ -338,13 +348,14 @@ export default function RSVPForm() {
             <Form.Field
               error={!!(form.touched.contactInfo && form.errors.contactInfo)}
             >
-              <label>
+              <label htmlFor="contactInfo">
                 What is a good way to contact you? (preferably a phone number or
                 email)
               </label>
               <Focus>
                 <TextArea
                   {...field}
+                  id="contactInfo"
                   placeholder="Please enter your contact information"
                   rows={5}
                 />
@@ -380,14 +391,21 @@ export default function RSVPForm() {
                       render={({ field }) =>
                         index === values.party.length - 1 ? (
                           <Form.Field width="7">
-                            <label>First name</label>
+                            <label id={`party.${index}.firstName`}>
+                              First name
+                            </label>
                             <Focus>
-                              <Input {...field} placeholder="First Name" />
+                              <Input
+                                {...field}
+                                id={`party.${index}.firstName`}
+                                placeholder="First Name"
+                              />
                             </Focus>
                           </Form.Field>
                         ) : (
                           <Form.Input
                             {...field}
+                            id={`party.${index}.firstName`}
                             placeholder="First Name"
                             label="First name"
                             width="7"
@@ -400,6 +418,7 @@ export default function RSVPForm() {
                       render={({ field }) => (
                         <Form.Input
                           {...field}
+                          id={`party.${index}.lastName`}
                           placeholder="Last Name"
                           label="Last name"
                           width="7"

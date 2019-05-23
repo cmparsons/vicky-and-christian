@@ -73,7 +73,13 @@ export default function Home() {
             </p> */}
             </Grid.Column>
             <Grid.Column floated="right" width={6}>
-              <Image bordered rounded size="large" src={cwr} />
+              <Image
+                bordered
+                rounded
+                size="large"
+                alt="Civil War Ranch"
+                src={cwr}
+              />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -83,6 +89,7 @@ export default function Home() {
                 as="a"
                 href="https://www.google.com/maps/place/Civil+War+Ranch/@37.22527,-94.3282057,17z/data=!3m1!4b1!4m5!3m4!1s0x87c62a08a5f73041:0xc97b74f233f38d59!8m2!3d37.22527!4d-94.326017"
                 target="_blank"
+                rel="noopener"
               >
                 Get Directions
               </Button>
@@ -104,12 +111,13 @@ export default function Home() {
             <Grid.Row columns={3} centered>
               <Image
                 src={bedSvg}
-                alt="Bed Bath and Beyond"
+                alt="Bed Bath and Beyond Registry"
                 width="150"
                 height="150"
                 as="a"
                 href="https://www.bedbathandbeyond.com/store/giftregistry/viewregistryguest/547454763?eventType=Wedding"
                 target="_blank"
+                rel="noopener"
               />
             </Grid.Row>
             {/* <img src={bedSvg}  alt="Bed Bath and Beyond" /> */}
