@@ -7,6 +7,15 @@ import AddGuestModal from "./AddGuestModal";
 const renderDate = date =>
   `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 
+const compareGuests = (...sortKeys) => (a, b) => {
+  for (const key of sortKeys) {
+    if (a[key] !== b[key]) {
+      return a[key] > b[key] ? 1 : -1;
+    }
+  }
+  return 1;
+};
+
 function renderRsvpInfo(guest) {
   if (guest.isAttending) {
     return (
@@ -37,6 +46,34 @@ export default function GuestList() {
   const [selectedGuest, setSelectedGuest] = React.useState(null);
   const [isAddModalOpen, setAddModalOpen] = React.useState(false);
   const [isEditModalOpen, setEditModalOpen] = React.useState(false);
+
+  const [column, setColumn] = React.useState(null);
+  const [sortDirection, setSortDirection] = React.useState(null);
+
+  const handleSort = clickedColumn => () => {
+    if (clickedColumn !== column) {
+      setColumn(clickedColumn);
+      setSortDirection("ascending");
+      setGuests(prev => {
+        const newGuestList = [...prev];
+        const sortKeys =
+          clickedColumn === "name"
+            ? ["lastName", "firstName"]
+            : [clickedColumn];
+        newGuestList.sort(compareGuests(...sortKeys));
+        return newGuestList;
+      });
+    } else {
+      setGuests(prev => {
+        const newGuestList = [...prev];
+        newGuestList.reverse();
+        return newGuestList;
+      });
+      setSortDirection(prevDirection =>
+        prevDirection === "ascending" ? "descending" : "ascending"
+      );
+    }
+  };
 
   const openAddModal = () => setAddModalOpen(true);
   const closeAddModal = () => setAddModalOpen(false);
@@ -69,6 +106,7 @@ export default function GuestList() {
       const querySnapshot = await firebase
         .firestore()
         .collection("guests")
+        .orderBy("lastName", "asc")
         .get();
 
       setGuests(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
@@ -105,14 +143,39 @@ export default function GuestList() {
           } RSVP'd`}</Header.Subheader>
         </Header.Content>
       </Header>
-      <Table padded celled selectable>
+      <Table padded celled selectable sortable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>RSVP'd?</Table.HeaderCell>
-            <Table.HeaderCell>Mailing Address</Table.HeaderCell>
-            <Table.HeaderCell>Contact Info</Table.HeaderCell>
-            <Table.HeaderCell>Last Updated</Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === "name" ? sortDirection : null}
+              onClick={handleSort("name")}
+            >
+              Name
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === "isAttending" ? sortDirection : null}
+              onClick={handleSort("isAttending")}
+            >
+              RSVP'd?
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === "mailingAddress" ? sortDirection : null}
+              onClick={handleSort("mailingAddress")}
+            >
+              Mailing Address
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === "contactInfo" ? sortDirection : null}
+              onClick={handleSort("contactInfo")}
+            >
+              Contact Info
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === "lastUpdated" ? sortDirection : null}
+              onClick={handleSort("lastUpdated")}
+            >
+              Last Updated
+            </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 

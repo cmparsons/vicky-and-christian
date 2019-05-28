@@ -19,3 +19,7 @@ footer {
 fieldset {
   border: 0;
 }
+
+table.selectable:hover {
+  cursor: pointer;
+}
