@@ -95,7 +95,8 @@ export default function EditGuestModal({
             lastName: values.lastName.trim(),
             contactInfo: values.contactInfo.trim(),
             mailingAddress: values.mailingAddress.trim(),
-            isAttending: values.isAttending === "true"
+            isAttending: values.isAttending === "true",
+            lastUpdated: firebase.firestore.Timestamp.fromDate(new Date())
           };
           try {
             await firebase

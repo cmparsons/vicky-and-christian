@@ -97,7 +97,7 @@ export default class Wizard extends React.Component {
               <Message
                 success={success}
                 header="Success"
-                content="Your RSVP was successfully placed! You can update your RSVP anytime until the wedding."
+                content="Your RSVP was successfully placed! You can update your RSVP anytime until the wedding (just go through the RSVP wizard again)."
               />
             ) : null}
           </Form>
