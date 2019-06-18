@@ -162,6 +162,16 @@ export default function RSVPForm() {
                 res.text().then(error => {
                   dispatch({ type: "ERROR", error });
                 });
+              } else if (res.status === 404) {
+                console.log("status", res.status, "statusText", res.statusText);
+                res.text().then(error => {
+                  console.log("404 error", error);
+                  dispatch({
+                    type: "ERROR",
+                    error: `We could not find your invitation. Try another variation of your name, especially if we know you by another name.
+                    If that doesn't work, please contact us directly.`
+                  });
+                });
               } else {
                 console.log("status", res.status, "statusText", res.statusText);
                 throw new Error("Network response was not ok.");
@@ -198,7 +208,8 @@ export default function RSVPForm() {
           }
           if (
             process.env.REACT_APP_EVENT_CODE &&
-            values.eventCode !== process.env.REACT_APP_EVENT_CODE
+            values.eventCode.toLowerCase() !==
+              process.env.REACT_APP_EVENT_CODE.toLowerCase()
           ) {
             return {
               eventCode: "Invalid event code"

@@ -3,7 +3,7 @@ import { Modal, Button, Form, TextArea, Icon } from "semantic-ui-react";
 import { Formik, Field } from "formik";
 import firebase from "firebase/app";
 
-export default function AdGuestModal({ isOpen, close, open, addGuest }) {
+export default function AddGuestModal({ isOpen, close, open, addGuest }) {
   return (
     <Modal
       open={isOpen}
@@ -29,7 +29,8 @@ export default function AdGuestModal({ isOpen, close, open, addGuest }) {
           firstName: "",
           lastName: "",
           mailingAddress: "",
-          contactInfo: ""
+          contactInfo: "",
+          createdAt: firebase.firestore.Timestamp.fromDate(new Date())
         }}
         onSubmit={async (values, { setSubmitting }) => {
           console.log(values);
