@@ -156,7 +156,7 @@ export default function GuestList() {
               sorted={column === "isAttending" ? sortDirection : null}
               onClick={handleSort("isAttending")}
             >
-              RSVP'd?
+              RSVP Status
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === "mailingAddress" ? sortDirection : null}
