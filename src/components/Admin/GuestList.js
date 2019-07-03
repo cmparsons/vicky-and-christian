@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 import EditGuestModal from "./EditGuestModal";
 import AddGuestModal from "./AddGuestModal";
 
-const renderDate = date =>
+const formatDate = date =>
   `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 
 const compareGuests = (...sortKeys) => (a, b) => {
@@ -16,7 +16,7 @@ const compareGuests = (...sortKeys) => (a, b) => {
   return 1;
 };
 
-function renderRsvpInfo(guest) {
+function RSVPInfoCell({ guest }) {
   if (guest.isAttending) {
     return (
       <Table.Cell positive>
@@ -156,7 +156,7 @@ export default function GuestList() {
               sorted={column === "isAttending" ? sortDirection : null}
               onClick={handleSort("isAttending")}
             >
-              RSVP Status
+              Attending?
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === "mailingAddress" ? sortDirection : null}
@@ -176,6 +176,12 @@ export default function GuestList() {
             >
               Last Updated
             </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === "createdAt" ? sortDirection : null}
+              onClick={handleSort("createdAt")}
+            >
+              Created At
+            </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -189,13 +195,16 @@ export default function GuestList() {
               }}
             >
               <Table.Cell>{`${guest.firstName} ${guest.lastName}`}</Table.Cell>
-              {renderRsvpInfo(guest)}
+              <RSVPInfoCell guest={guest} />
               <Table.Cell>{guest.mailingAddress}</Table.Cell>
               <Table.Cell>{guest.contactInfo}</Table.Cell>
               <Table.Cell>
                 {guest.lastUpdated
-                  ? renderDate(guest.lastUpdated.toDate())
-                  : "N/A"}
+                  ? formatDate(guest.lastUpdated.toDate())
+                  : null}
+              </Table.Cell>
+              <Table.Cell>
+                {guest.createdAt ? formatDate(guest.createdAt.toDate()) : null}
               </Table.Cell>
             </Table.Row>
           ))}
