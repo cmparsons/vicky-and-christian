@@ -14,6 +14,8 @@ import { Field, FieldArray, FormikConsumer } from "formik";
 import Wizard from "./Wizard";
 import { navigate } from "@reach/router";
 
+const EVENT_CODE = process.env.REACT_APP_EVENT_CODE;
+
 const warn = (...args) =>
   process.env.NODE_ENV !== "production" && console.warn(...args);
 
@@ -122,7 +124,7 @@ export default function RSVPForm() {
       }, 7000);
     }
     return () => timeout && clearTimeout(timeout);
-  }, [state.success, state.error]);
+  }, [state.success]);
 
   return (
     <Wizard
@@ -201,16 +203,15 @@ export default function RSVPForm() {
     >
       <Wizard.Page
         validate={values => {
+          if (!EVENT_CODE) {
+            return {};
+          }
           if (!values.eventCode) {
             return {
               eventCode: "Required"
             };
           }
-          if (
-            process.env.REACT_APP_EVENT_CODE &&
-            values.eventCode.toLowerCase() !==
-              process.env.REACT_APP_EVENT_CODE.toLowerCase()
-          ) {
+          if (values.eventCode.toLowerCase() !== EVENT_CODE.toLowerCase()) {
             return {
               eventCode: "Invalid event code"
             };
@@ -253,36 +254,38 @@ export default function RSVPForm() {
             )}
           />
         </Form.Group>
-        <Field
-          name="eventCode"
-          render={({ field, form }) => (
-            <Popup
-              trigger={
-                <Form.Field
-                  error={!!(form.touched.eventCode && form.errors.eventCode)}
-                  required={process.env.REACT_APP_EVENT_CODE !== ""}
-                >
-                  <label htmlFor="eventCode">Event code</label>
-                  <Input
-                    {...field}
-                    id="eventCode"
-                    icon="lock"
-                    iconPosition="left"
-                    placeholder="Event Code"
-                    autoComplete="off"
-                    autoCapitalize="off"
-                    autoCorrect="off"
-                    spellCheck="off"
-                  />
-                  <ErrorLabel name="eventCode" />
-                </Form.Field>
-              }
-              label="Event Code"
-              content="Check your invite to find the event code"
-              on="focus"
-            />
-          )}
-        />
+        {EVENT_CODE && (
+          <Field
+            name="eventCode"
+            render={({ field, form }) => (
+              <Popup
+                trigger={
+                  <Form.Field
+                    error={!!(form.touched.eventCode && form.errors.eventCode)}
+                    required={process.env.REACT_APP_EVENT_CODE !== ""}
+                  >
+                    <label htmlFor="eventCode">Event code</label>
+                    <Input
+                      {...field}
+                      id="eventCode"
+                      icon="lock"
+                      iconPosition="left"
+                      placeholder="Event Code"
+                      autoComplete="off"
+                      autoCapitalize="off"
+                      autoCorrect="off"
+                      spellCheck="off"
+                    />
+                    <ErrorLabel name="eventCode" />
+                  </Form.Field>
+                }
+                label="Event Code"
+                content="Check your invite to find the event code"
+                on="focus"
+              />
+            )}
+          />
+        )}
       </Wizard.Page>
       <Wizard.Page>
         <fieldset style={{ marginBottom: 15 }}>

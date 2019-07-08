@@ -13,7 +13,18 @@ const uiConfig = {
   }
 };
 
-export default function Admin() {
+function AdminContainer() {
+  return (
+    <Container>
+      <GuestList />
+      <div style={{ textAlign: "center" }}>
+        <Link to="/">Go Home</Link>
+      </div>
+    </Container>
+  );
+}
+
+function AdminContainerWithAuth() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
@@ -25,12 +36,7 @@ export default function Admin() {
   return (
     <>
       {isLoggedIn ? (
-        <Container>
-          <GuestList />
-          <div style={{ textAlign: "center" }}>
-            <Link to="/">Go Home</Link>
-          </div>
-        </Container>
+        <AdminContainer />
       ) : (
         <StyledFirebaseAuth
           uiConfig={uiConfig}
@@ -39,4 +45,12 @@ export default function Admin() {
       )}
     </>
   );
+}
+
+export default function Admin() {
+  if (process.env.NODE_ENV === "production") {
+    return <AdminContainerWithAuth />;
+  }
+
+  return <AdminContainer />;
 }
