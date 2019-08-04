@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Icon, Header } from "semantic-ui-react";
+import { Table, Icon, Header, Loader, Dimmer } from "semantic-ui-react";
 import firebase from "firebase/app";
 import EditGuestModal from "./EditGuestModal";
 import AddGuestModal from "./AddGuestModal";
@@ -42,6 +42,7 @@ function RSVPInfoCell({ guest }) {
 }
 
 export default function GuestList() {
+  const [isFetching, setIsFetching] = React.useState(true);
   const [guests, setGuests] = React.useState([]);
   const [selectedGuest, setSelectedGuest] = React.useState(null);
   const [isAddModalOpen, setAddModalOpen] = React.useState(false);
@@ -110,10 +111,19 @@ export default function GuestList() {
         .get();
 
       setGuests(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setIsFetching(false);
     };
 
     fetchGuestList();
   }, []);
+
+  if (isFetching) {
+    return (
+      <Dimmer active inverted>
+        <Loader size="big" />
+      </Dimmer>
+    );
+  }
 
   const numAttending = guests.filter(guest => guest.isAttending).length;
 
@@ -159,6 +169,12 @@ export default function GuestList() {
               Attending?
             </Table.HeaderCell>
             <Table.HeaderCell
+              sorted={column === "sentInvitation" ? sortDirection : null}
+              onClick={handleSort("sentInvitation")}
+            >
+              Sent Invitation?
+            </Table.HeaderCell>
+            <Table.HeaderCell
               sorted={column === "mailingAddress" ? sortDirection : null}
               onClick={handleSort("mailingAddress")}
             >
@@ -196,6 +212,17 @@ export default function GuestList() {
             >
               <Table.Cell>{`${guest.firstName} ${guest.lastName}`}</Table.Cell>
               <RSVPInfoCell guest={guest} />
+              {guest.sentInvitation ? (
+                <Table.Cell positive>
+                  <Icon name="paper plane outline" />
+                  Invite Sent
+                </Table.Cell>
+              ) : (
+                <Table.Cell error>
+                  <Icon name="clock outline" />
+                  No Invite
+                </Table.Cell>
+              )}
               <Table.Cell>{guest.mailingAddress}</Table.Cell>
               <Table.Cell>{guest.contactInfo}</Table.Cell>
               <Table.Cell>
