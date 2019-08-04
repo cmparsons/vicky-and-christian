@@ -72,14 +72,16 @@ export default function EditGuestModal({
           lastName: guest.lastName || "",
           mailingAddress: guest.mailingAddress || "",
           contactInfo: guest.contactInfo || "",
-          isAttending: guest.isAttending ? "true" : "false"
+          isAttending: guest.isAttending ? "true" : "false",
+          sentInvitation: guest.sentInvitation ? "true" : "false"
         }
       : {
           firstName: "",
           lastName: "",
           mailingAddress: "",
           contactInfo: "",
-          isAttending: "false"
+          isAttending: "false",
+          sentInvitation: "false"
         };
 
   return (
@@ -96,7 +98,8 @@ export default function EditGuestModal({
             contactInfo: values.contactInfo.trim(),
             mailingAddress: values.mailingAddress.trim(),
             isAttending: values.isAttending === "true",
-            lastUpdated: firebase.firestore.Timestamp.fromDate(new Date())
+            lastUpdated: firebase.firestore.Timestamp.fromDate(new Date()),
+            sentInvitation: values.sentInvitation === "true"
           };
           try {
             await firebase
@@ -206,6 +209,51 @@ export default function EditGuestModal({
                       checked={field.value === "false"}
                       error={
                         form.touched.isAttending && form.errors.isAttending
+                      }
+                    />
+                  )}
+                />
+                <label
+                  style={{
+                    display: "block",
+                    marginBottom: "15px",
+                    fontWeight: "bold"
+                  }}
+                >
+                  Sent Invitation?
+                </label>
+                <Field
+                  name="sentInvitation"
+                  render={({ field, form }) => (
+                    <Form.Field
+                      {...field}
+                      control={Radio}
+                      id="sentInvitation_true"
+                      name="sentInvitation"
+                      label="Yes"
+                      value="true"
+                      checked={field.value === "true"}
+                      error={
+                        form.touched.sentInvitation &&
+                        form.errors.sentInvitation
+                      }
+                    />
+                  )}
+                />
+                <Field
+                  name="sentInvitation"
+                  render={({ field, form }) => (
+                    <Form.Field
+                      {...field}
+                      control={Radio}
+                      name="sentInvitation"
+                      id="sentInvitation_false"
+                      label="No"
+                      value="false"
+                      checked={field.value === "false"}
+                      error={
+                        form.touched.sentInvitation &&
+                        form.errors.sentInvitation
                       }
                     />
                   )}
