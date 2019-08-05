@@ -14,8 +14,6 @@ import { Field, FieldArray, FormikConsumer } from "formik";
 import Wizard from "./Wizard";
 import { navigate } from "@reach/router";
 
-const EVENT_CODE = process.env.REACT_APP_EVENT_CODE;
-
 const warn = (...args) =>
   process.env.NODE_ENV !== "production" && console.warn(...args);
 
@@ -54,8 +52,7 @@ function InputLengthLabel({ length, maxLength }) {
   return (
     <small
       style={{
-        display: "flex",
-        justifyContent: "flex-end",
+        float: "right",
         padding: 5
       }}
     >
@@ -157,17 +154,13 @@ export default function RSVPForm() {
           .then(
             res => {
               if (res.ok) {
-                console.log("OK");
                 dispatch({ type: "SUCCESS" });
               } else if (res.status === 400) {
-                console.log("status", res.status, "statusText", res.statusText);
                 res.text().then(error => {
                   dispatch({ type: "ERROR", error });
                 });
               } else if (res.status === 404) {
-                console.log("status", res.status, "statusText", res.statusText);
                 res.text().then(error => {
-                  console.log("404 error", error);
                   dispatch({
                     type: "ERROR",
                     error: `We could not find your invitation. Try another variation of your name, especially if we know you by another name.
@@ -175,25 +168,22 @@ export default function RSVPForm() {
                   });
                 });
               } else {
-                console.log("status", res.status, "statusText", res.statusText);
                 throw new Error("Network response was not ok.");
               }
             },
-            error => {
-              console.error("api error", error);
+            () => {
               dispatch({
                 type: "ERROR",
                 error:
-                  "A system error occurred. Check the developer's console for more information about the error."
+                  "A system error occurred. Please try again later or contact us directly if issue persists."
               });
             }
           )
-          .catch(error => {
-            console.error(error);
+          .catch(() => {
             dispatch({
               type: "ERROR",
               error:
-                "Check the developer's console for more information about the error."
+                "A system error occurred. Please try again later or contact us directly if issue persists."
             });
           })
           .finally(() => {
@@ -203,21 +193,27 @@ export default function RSVPForm() {
     >
       <Wizard.Page
         validate={values => {
-          if (!EVENT_CODE) {
-            return {};
-          }
-          if (!values.eventCode) {
-            return {
-              eventCode: "Required"
-            };
-          }
-          if (values.eventCode.toLowerCase() !== EVENT_CODE.toLowerCase()) {
-            return {
-              eventCode: "Invalid event code"
-            };
+          const errors = {};
+          if (process.env.REACT_APP_EVENT_CODE) {
+            if (!values.eventCode) {
+              errors.eventCode = "Required";
+            } else if (
+              values.eventCode.toLowerCase() !==
+              process.env.REACT_EVENT_CODE.toLowerCase()
+            ) {
+              errors.eventCode = "Invalid event code";
+            }
           }
 
-          return {};
+          if (!values.firstName) {
+            errors.firstName = "Required";
+          }
+
+          if (!values.lastName) {
+            errors.lastName = "Required";
+          }
+
+          return errors;
         }}
       >
         <Form.Group widths="equal">
@@ -243,18 +239,24 @@ export default function RSVPForm() {
           />
           <Field
             name="lastName"
-            render={({ field }) => (
-              <Form.Input
-                {...field}
-                id="lastName"
+            render={({ field, form }) => (
+              <Form.Field
+                error={!!(form.touched.lastName && form.errors.lastName)}
                 required
-                placeholder="Last Name"
-                label="Last name"
-              />
+              >
+                <label htmlFor="lastName">Last name</label>
+                <Input
+                  {...field}
+                  id="lastName"
+                  required
+                  placeholder="Last Name"
+                />
+                <ErrorLabel name="lastName" />
+              </Form.Field>
             )}
           />
         </Form.Group>
-        {EVENT_CODE && (
+        {process.env.REACT_APP_EVENT_CODE ? (
           <Field
             name="eventCode"
             render={({ field, form }) => (
@@ -285,9 +287,17 @@ export default function RSVPForm() {
               />
             )}
           />
-        )}
+        ) : null}
       </Wizard.Page>
-      <Wizard.Page>
+      <Wizard.Page
+        validate={values => {
+          if (!values.isAttending) {
+            return {
+              isAttending: "Required"
+            };
+          }
+        }}
+      >
         <fieldset style={{ marginBottom: 15 }}>
           <legend
             style={{
@@ -309,7 +319,7 @@ export default function RSVPForm() {
                 label="Yes"
                 value="true"
                 checked={field.value === "true"}
-                error={form.touched.isAttending && form.errors.isAttending}
+                error={!!(form.touched.isAttending && form.errors.isAttending)}
               />
             )}
           />
@@ -324,10 +334,11 @@ export default function RSVPForm() {
                 label="No"
                 value="false"
                 checked={field.value === "false"}
-                error={form.touched.isAttending && form.errors.isAttending}
+                error={!!(form.touched.isAttending && form.errors.isAttending)}
               />
             )}
           />
+          <ErrorLabel name="isAttending" />
         </fieldset>
       </Wizard.Page>
       <Wizard.Page validate={validateLength("mailingAddress")}>
@@ -351,6 +362,7 @@ export default function RSVPForm() {
                 />
               </Focus>
               <InputLengthLabel length={field.value.length} maxLength={512} />
+              <ErrorLabel name="mailingAddress" />
             </Form.Field>
           )}
         />
@@ -375,6 +387,7 @@ export default function RSVPForm() {
                 />
               </Focus>
               <InputLengthLabel length={field.value.length} maxLength={512} />
+              <ErrorLabel name="contactInfo" />
             </Form.Field>
           )}
         />
@@ -458,6 +471,7 @@ export default function RSVPForm() {
                     defaultOpen={values.party.length === 1}
                     trigger={
                       <Button
+                        aria-label="Add party member"
                         type="button"
                         onClick={() => push({ firstName: "", lastName: "" })}
                       >

@@ -75,6 +75,7 @@ export default class Wizard extends React.Component {
             loading={isSubmitting}
             error={hasApiError}
             success={success}
+            noValidate
           >
             {activePage}
             {page > 0 && (
@@ -92,9 +93,15 @@ export default class Wizard extends React.Component {
               </Button>
             )}
             {hasApiError ? (
-              <Message error={hasApiError} header="Error" content={error} />
+              <Message
+                role="alert"
+                error={hasApiError}
+                header="Error"
+                content={error}
+              />
             ) : success ? (
               <Message
+                role="alert"
                 success={success}
                 header="Success"
                 content="Your RSVP was successfully placed! You can update your RSVP anytime until the wedding (just go through the RSVP wizard again)."

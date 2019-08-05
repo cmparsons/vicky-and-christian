@@ -10,7 +10,7 @@ const initialCountDown = {
 
 function computeCountDown(date) {
   const now = new Date().getTime();
-  const distance = date - now;
+  const distance = date.getTime() - now;
 
   if (distance < 0) {
     return initialCountDown;
