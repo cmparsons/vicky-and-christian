@@ -2,16 +2,12 @@ import React from "react";
 import { render, fireEvent, waitForDomChange } from "@testing-library/react";
 import RSVP from "../components/RSVP/RSVP";
 
-const generateString = length => {
-  let rtnValue = "";
-  for (let i = 0; i < length; i++) {
-    rtnValue += "a";
-  }
-  return rtnValue;
-};
+const generateString = length => "a".repeat(length);
 
 test("wizard goes to next page when no errors on current page", async () => {
-  const { getByLabelText, getByText, queryByLabelText } = render(<RSVP />);
+  const { getByLabelText, getByText, queryByLabelText, queryByText } = render(
+    <RSVP />
+  );
 
   // First page -- first name, last name
   fireEvent.change(getByLabelText(/first name/i), {
@@ -24,6 +20,9 @@ test("wizard goes to next page when no errors on current page", async () => {
 
   expect(queryByLabelText(/first name/i)).not.toBeInTheDocument();
   expect(queryByLabelText(/last name/i)).not.toBeInTheDocument();
+
+  // Second page -- is attending
+  expect(queryByText(/attending/i)).toBeInTheDocument();
 });
 
 test("form values persist from previous page", async () => {
@@ -76,7 +75,7 @@ test('requires user to fill out "Is attending?" question', async () => {
 });
 
 test("prevents user from submitting long responses for mailing address", async () => {
-  const { getByLabelText, getByText, queryByText, debug } = render(<RSVP />);
+  const { getByLabelText, getByText, queryByText } = render(<RSVP />);
 
   // First page -- first name, last name
   fireEvent.change(getByLabelText(/first name/i), {
@@ -98,11 +97,7 @@ test("prevents user from submitting long responses for mailing address", async (
   fireEvent.click(getByText(/next/i));
   await waitForDomChange();
 
-  // debug();
-
-  expect(
-    queryByText(/woah there! Length of your response is too long/i)
-  ).toBeInTheDocument();
+  expect(queryByText(/response is too long/i)).toBeInTheDocument();
 });
 
 test("prevents user from submitting long responses for contact info", async () => {
@@ -135,9 +130,7 @@ test("prevents user from submitting long responses for contact info", async () =
   fireEvent.click(getByText(/next/i));
   await waitForDomChange();
 
-  expect(
-    queryByText(/woah there! Length of your response is too long/i)
-  ).toBeInTheDocument();
+  expect(queryByText(/response is too long/i)).toBeInTheDocument();
 });
 
 test("allows the user to rsvp successfully", async () => {
