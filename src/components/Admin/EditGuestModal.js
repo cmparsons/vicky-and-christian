@@ -126,6 +126,7 @@ export default function EditGuestModal({
                     render={({ field }) => (
                       <Form.Input
                         {...field}
+                        id="firstName"
                         required
                         placeholder="First Name"
                         label="First name"
@@ -138,6 +139,7 @@ export default function EditGuestModal({
                     render={({ field }) => (
                       <Form.Input
                         {...field}
+                        id="lastName"
                         required
                         placeholder="Last Name"
                         label="Last name"
@@ -151,6 +153,7 @@ export default function EditGuestModal({
                   render={({ field }) => (
                     <Form.Field
                       {...field}
+                      id="mailingAddress"
                       control={TextArea}
                       label="Mailing Address"
                       placeholder="Please enter mailing address"
@@ -163,6 +166,7 @@ export default function EditGuestModal({
                   render={({ field }) => (
                     <Form.Field
                       {...field}
+                      id="contactInfo"
                       control={TextArea}
                       label="Contact Info"
                       placeholder="Please enter contact information"
