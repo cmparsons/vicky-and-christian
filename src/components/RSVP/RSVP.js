@@ -8,8 +8,8 @@ export default function RSVP() {
     <Container>
       <Grid verticalAlign="middle" centered style={{ height: "100vh" }}>
         <Grid.Column style={{ maxWidth: 650 }}>
-          <Header as="h2" textAlign="center">
-            <span role="img" aria-label="RSVP">
+          <Header as="h1" textAlign="center">
+            <span role="img" aria-hidden="true">
               📝
             </span>
             RSVP
