@@ -418,7 +418,7 @@ export default function RSVPForm() {
                       render={({ field }) =>
                         index === values.party.length - 1 ? (
                           <Form.Field width="7">
-                            <label id={`party.${index}.firstName`}>
+                            <label htmlFor={`party.${index}.firstName`}>
                               First name
                             </label>
                             <Focus>
