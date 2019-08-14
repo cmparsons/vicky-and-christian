@@ -8,6 +8,7 @@ import {
   Segment
 } from "semantic-ui-react";
 import bedSvg from "../../assets/Bed.svg";
+import amazonSvg from "../../assets/amazon.svg";
 
 import "./Home.css";
 import CountDown from "../CountDown";
@@ -24,7 +25,7 @@ export default function Home() {
         <div className="hero-text">
           <Header as="h1" inverted style={{ fontSize: "3.5em" }}>
             Vicky & Christian{" "}
-            <span role="img" aria-label="Wedding">
+            <span role="img" aria-hidden="true">
               💒
             </span>
           </Header>
@@ -59,18 +60,9 @@ export default function Home() {
                 (weather permitting{" "}
                 <span role="img" aria-label="Fingers Crossed" />
                 🤞) by the pond. If the weather happens to be against us that
-                day, then the ceremony will be held upstairs in the barn. The
-                reception will follow in the barn.
+                day, then the ceremony will be held upstairs in the barn or
+                under the pavilion. The reception will follow in the barn.
               </p>
-              {/* <p style={{ fontSize: "1.33em" }}>
-            </p> */}
-              {/* <Header as="h3" style={{ fontSize: "2em" }}>
-              We Make Bananas That Can Dance
-            </Header>
-            <p style={{ fontSize: "1.33em" }}>
-              Yes that's right, you thought it was the stuff of dreams, but even
-              bananas can be bioengineered.
-            </p> */}
             </Grid.Column>
             <Grid.Column floated="right" width={6}>
               <Image
@@ -108,7 +100,9 @@ export default function Home() {
             are stubborn, we've put together a wish-list to help you out.
           </p>
           <Grid style={{ padding: "1em 0em" }}>
-            <Grid.Row columns={3} centered>
+            <Grid.Row
+              style={{ display: "flex", justifyContent: "space-evenly" }}
+            >
               <Image
                 src={bedSvg}
                 alt="Bed Bath and Beyond Registry"
@@ -119,12 +113,18 @@ export default function Home() {
                 target="_blank"
                 rel="noopener"
               />
+              <Image
+                src={amazonSvg}
+                alt="Amazon Registry"
+                width="185"
+                height="48"
+                as="a"
+                href="https://www.amazon.com/wedding/christian-parsons-vicky-knight-carthage-november-2019/registry/1K8PVZO7XZFNS"
+                target="_blank"
+                rel="noopener"
+              />
             </Grid.Row>
-            {/* <img src={bedSvg}  alt="Bed Bath and Beyond" /> */}
           </Grid>
-          {/* <Button as="a" size="large">
-            Read More
-          </Button> */}
         </Container>
       </Segment>
 

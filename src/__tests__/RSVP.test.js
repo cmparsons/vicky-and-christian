@@ -216,3 +216,38 @@ test("displays error if an API error occurs", async () => {
 
   expect(message).toHaveTextContent(/error/i);
 });
+
+test("first input of each page is focused when initially mounted", async () => {
+  const { getByLabelText, getByText } = render(<RSVP />);
+
+  // First page -- first name, last name
+  const firstNameInput = getByLabelText(/first name/i);
+  expect(document.activeElement).toBe(firstNameInput);
+  fireEvent.change(firstNameInput, { target: { value: "test" } });
+  fireEvent.change(getByLabelText(/last name/i), { target: { value: "user" } });
+  fireEvent.click(getByText(/next/i));
+
+  await waitForDomChange();
+
+  // Second page -- is attending
+  // TODO ...
+  fireEvent.click(getByLabelText(/yes/i));
+  fireEvent.click(getByText(/next/i));
+  await waitForDomChange();
+
+  // Third page -- mailing address
+  const mailingAddress = getByLabelText(/mailing address/i);
+  expect(document.activeElement).toBe(mailingAddress);
+  fireEvent.click(getByText(/next/i));
+  await waitForDomChange();
+
+  // Fourth page -- contact info
+  const contactInfo = getByLabelText(/contact/i);
+  expect(document.activeElement).toBe(contactInfo);
+  fireEvent.click(getByText(/next/i));
+  await waitForDomChange();
+
+  // Fifth page -- party
+  const firstPartyMemberFirstName = getByLabelText(/first name/i);
+  expect(document.activeElement).toBe(firstPartyMemberFirstName);
+});
