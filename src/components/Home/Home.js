@@ -137,18 +137,6 @@ export default function Home() {
             If you have any questions or concerns about the wedding, don't be
             afraid to contact us!
           </p>
-          <Grid style={{ padding: "1em 0em" }}>
-            <Grid.Row columns={2} centered>
-              <Grid.Column>
-                <Header size="small">Vicky Knight</Header>
-                <p>(417) 359 - 6843</p>
-              </Grid.Column>
-              <Grid.Column>
-                <Header size="small">Christian Parsons</Header>
-                <p>(417) 793 - 3165</p>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
         </Container>
       </Segment>
     </>

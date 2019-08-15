@@ -222,7 +222,7 @@ test("first input of each page is focused when initially mounted", async () => {
 
   // First page -- first name, last name
   const firstNameInput = getByLabelText(/first name/i);
-  expect(document.activeElement).toBe(firstNameInput);
+  expect(firstNameInput).toHaveFocus();
   fireEvent.change(firstNameInput, { target: { value: "test" } });
   fireEvent.change(getByLabelText(/last name/i), { target: { value: "user" } });
   fireEvent.click(getByText(/next/i));
@@ -237,17 +237,17 @@ test("first input of each page is focused when initially mounted", async () => {
 
   // Third page -- mailing address
   const mailingAddress = getByLabelText(/mailing address/i);
-  expect(document.activeElement).toBe(mailingAddress);
+  expect(mailingAddress).toHaveFocus();
   fireEvent.click(getByText(/next/i));
   await waitForDomChange();
 
   // Fourth page -- contact info
   const contactInfo = getByLabelText(/contact/i);
-  expect(document.activeElement).toBe(contactInfo);
+  expect(contactInfo).toHaveFocus();
   fireEvent.click(getByText(/next/i));
   await waitForDomChange();
 
   // Fifth page -- party
   const firstPartyMemberFirstName = getByLabelText(/first name/i);
-  expect(document.activeElement).toBe(firstPartyMemberFirstName);
+  expect(firstPartyMemberFirstName).toHaveFocus();
 });
