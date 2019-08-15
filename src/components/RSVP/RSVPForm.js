@@ -207,13 +207,13 @@ export default function RSVPForm() {
 
           if (!values.firstName) {
             errors.firstName = "Required";
-          } else if (values.length > 256) {
+          } else if (values.firstName.length > 256) {
             errors.firstName = "Please shorten your response";
           }
 
           if (!values.lastName) {
             errors.lastName = "Required";
-          } else if (values.length > 256) {
+          } else if (values.lastName.length > 256) {
             errors.lastName = "Please shorten your response";
           }
 
