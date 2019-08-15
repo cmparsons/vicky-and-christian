@@ -17,11 +17,11 @@ import { navigate } from "@reach/router";
 const warn = (...args) =>
   process.env.NODE_ENV !== "production" && console.warn(...args);
 
-const validateLength = key => values => {
+const validateLength = (key, maxLength = 512) => values => {
   const value = values[key];
   const errors = {};
 
-  if (value.length > 512) {
+  if (value.length > maxLength) {
     errors[key] = "Woah there! Length of your response is too long";
   }
 
@@ -207,10 +207,14 @@ export default function RSVPForm() {
 
           if (!values.firstName) {
             errors.firstName = "Required";
+          } else if (values.length > 256) {
+            errors.firstName = "Please shorten your response";
           }
 
           if (!values.lastName) {
             errors.lastName = "Required";
+          } else if (values.length > 256) {
+            errors.lastName = "Please shorten your response";
           }
 
           return errors;
