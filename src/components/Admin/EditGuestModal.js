@@ -6,7 +6,8 @@ import {
   Button,
   Radio,
   Icon,
-  Header
+  Header,
+  Checkbox
 } from "semantic-ui-react";
 import { Formik, Field } from "formik";
 import firebase from "firebase/app";
@@ -73,7 +74,8 @@ export default function EditGuestModal({
           mailingAddress: guest.mailingAddress || "",
           contactInfo: guest.contactInfo || "",
           isAttending: guest.isAttending ? "true" : "false",
-          sentInvitation: guest.sentInvitation ? "true" : "false"
+          sentInvitation: guest.sentInvitation ? "true" : "false",
+          resetUpdatedAt: false
         }
       : {
           firstName: "",
@@ -81,7 +83,8 @@ export default function EditGuestModal({
           mailingAddress: "",
           contactInfo: "",
           isAttending: "false",
-          sentInvitation: "false"
+          sentInvitation: "false",
+          resetUpdatedAt: false
         };
 
   return (
@@ -98,7 +101,9 @@ export default function EditGuestModal({
             contactInfo: values.contactInfo.trim(),
             mailingAddress: values.mailingAddress.trim(),
             isAttending: values.isAttending === "true",
-            lastUpdated: firebase.firestore.Timestamp.fromDate(new Date()),
+            lastUpdated: values.resetUpdatedAt
+              ? null
+              : firebase.firestore.Timestamp.fromDate(new Date()),
             sentInvitation: values.sentInvitation === "true"
           };
           try {
@@ -174,15 +179,7 @@ export default function EditGuestModal({
                     />
                   )}
                 />
-                <label
-                  style={{
-                    display: "block",
-                    marginBottom: "15px",
-                    fontWeight: "bold"
-                  }}
-                >
-                  Attending?
-                </label>
+                <label className="form-label">Attending?</label>
                 <Field
                   name="isAttending"
                   render={({ field, form }) => (
@@ -217,15 +214,7 @@ export default function EditGuestModal({
                     />
                   )}
                 />
-                <label
-                  style={{
-                    display: "block",
-                    marginBottom: "15px",
-                    fontWeight: "bold"
-                  }}
-                >
-                  Sent Invitation?
-                </label>
+                <label className="form-label">Sent Invitation?</label>
                 <Field
                   name="sentInvitation"
                   render={({ field, form }) => (
@@ -260,6 +249,23 @@ export default function EditGuestModal({
                         form.errors.sentInvitation
                       }
                     />
+                  )}
+                />
+                <Field
+                  name="resetUpdatedAt"
+                  render={({ field, form }) => (
+                    <Form.Field>
+                      <Checkbox
+                        toggle
+                        label="Reset Updated At?"
+                        name="resetUpdatedAt"
+                        id="resetUpdatedAt"
+                        checked={field.value}
+                        onChange={() => {
+                          form.setFieldValue("resetUpdatedAt", !field.value);
+                        }}
+                      />
+                    </Form.Field>
                   )}
                 />
               </Form>
