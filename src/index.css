@@ -23,3 +23,14 @@ fieldset {
 table.selectable:hover {
   cursor: pointer;
 }
+
+.form-label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.input-label-length {
+  float: right;
+  padding: 5px;
+}

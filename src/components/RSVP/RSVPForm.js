@@ -49,16 +49,7 @@ function ErrorLabel({ name }) {
 function InputLengthLabel({ length, maxLength }) {
   const display = `${length} / ${maxLength}`;
 
-  return (
-    <small
-      style={{
-        float: "right",
-        padding: 5
-      }}
-    >
-      {display}
-    </small>
-  );
+  return <small className="input-label-length">{display}</small>;
 }
 
 function Focus({ children }) {
@@ -303,13 +294,7 @@ export default function RSVPForm() {
         }}
       >
         <fieldset style={{ marginBottom: 15 }}>
-          <legend
-            style={{
-              display: "block",
-              marginBottom: 15,
-              fontWeight: "bold"
-            }}
-          >
+          <legend className="form-label">
             Will you be attending the wedding?
           </legend>
           <Field
@@ -402,13 +387,7 @@ export default function RSVPForm() {
             name="party"
             render={({ push, remove }) => (
               <>
-                <label
-                  style={{
-                    marginBottom: 15,
-                    fontWeight: "bold",
-                    display: "block"
-                  }}
-                >
+                <label className="form-label">
                   Please add any guests to your party.
                 </label>
                 {values.party.map((_, index) => (
