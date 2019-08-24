@@ -1,7 +1,12 @@
-import "@testing-library/react/cleanup-after-each";
 import "@testing-library/jest-dom/extend-expect";
 
-// Semantic UI still uses componentWillReceiveProps which causes the console to be polluted with warnings.
-beforeAll(() => {
-  jest.spyOn(console, "warn").mockImplementation(() => {});
+beforeEach(() => {
+  jest.spyOn(window, "fetch").mockImplementation((...args) => {
+    console.warn("window.fetch is not mocked for this call", ...args);
+    throw new Error("This must be mocked!");
+  });
+});
+
+afterEach(() => {
+  window.fetch.mockRestore();
 });
