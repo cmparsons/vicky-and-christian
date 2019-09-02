@@ -251,3 +251,19 @@ test("first input of each page is focused when initially mounted", async () => {
   const firstPartyMemberFirstName = getByLabelText(/first name/i);
   expect(firstPartyMemberFirstName).toHaveFocus();
 });
+
+test("prevents user from adding multiple first names", async () => {
+  const { getByLabelText, getByText } = render(<RSVP />);
+
+  fireEvent.change(getByLabelText(/first name/i), {
+    target: { value: "Bob and Mary" }
+  });
+  fireEvent.change(getByLabelText(/last name/i), {
+    target: { value: "Smith" }
+  });
+  fireEvent.click(getByText(/next/i));
+
+  await waitForDomChange();
+
+  expect(getByText(/limit first name to one person/i)).toBeInTheDocument();
+});

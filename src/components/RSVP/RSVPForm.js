@@ -200,6 +200,9 @@ export default function RSVPForm() {
             errors.firstName = "Required";
           } else if (values.firstName.length > 256) {
             errors.firstName = "Please shorten your response";
+          } else if (values.firstName.split(" ").length > 1) {
+            errors.firstName =
+              "Limit first name to one person and add additional guests to your party";
           }
 
           if (!values.lastName) {
