@@ -9,7 +9,7 @@ const initialCountDown = {
 };
 
 function computeCountDown(date) {
-  const now = new Date().getTime();
+  const now = Date.now();
   const distance = date.getTime() - now;
 
   if (distance < 0) {
@@ -50,6 +50,7 @@ export default function CountDown() {
     <Header
       inverted
       size="medium"
+      as="h3"
     >{`${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`}</Header>
   );
 }
