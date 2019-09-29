@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - "lts/*"
-notifications:
-  email: false
-cache: yarn
-install: yarn install
-script:
-  - yarn test
