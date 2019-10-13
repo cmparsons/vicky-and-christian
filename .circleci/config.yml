@@ -24,8 +24,11 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
-      - run: yarn coverage
+      - run:
+          name: Run tests with coverage report
+          command: yarn coverage
 
-      - store_artifacts:
+      - store_test_results:
           path: coverage
+      # - store_artifacts:
+      #     path: coverage/lcov-report

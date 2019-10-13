@@ -7,6 +7,4 @@ beforeEach(() => {
   });
 });
 
-afterEach(() => {
-  window.fetch.mockRestore();
-});
+afterEach(jest.restoreAllMocks);

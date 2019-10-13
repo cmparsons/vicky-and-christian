@@ -8,10 +8,10 @@ const initialCountDown = {
   seconds: 0
 };
 
-function computeCountDown(date) {
-  const now = Date.now();
-  const distance = date.getTime() - now;
+// November 16, 2019 3PM
+const weddingDate = new Date(2019, 10, 16, 15);
 
+function computeCountDown(distance) {
   if (distance < 0) {
     return initialCountDown;
   } else {
@@ -26,25 +26,31 @@ function computeCountDown(date) {
   }
 }
 
-// November 16, 2019 3PM
-function useCountDown(date = new Date(2019, 10, 16, 15)) {
-  const [countDown, setCountDown] = useState(() => computeCountDown(date));
+function useCountDown(date, start) {
+  const [countDown, setCountDown] = useState(() =>
+    computeCountDown(date - start)
+  );
 
   useEffect(() => {
+    let now = start;
     const intervalId = setInterval(() => {
-      setCountDown(computeCountDown(date));
+      now += 1000;
+      setCountDown(computeCountDown(date - now));
     }, 1000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [date]);
+  }, [date, start]);
 
   return countDown;
 }
 
-export default function CountDown() {
-  const { days, hours, minutes, seconds } = useCountDown();
+export default function CountDown({
+  date = weddingDate.getTime(),
+  start = Date.now()
+}) {
+  const { days, hours, minutes, seconds } = useCountDown(date, start);
 
   return (
     <Header
