@@ -1,5 +1,10 @@
 import React from "react";
-import { render, fireEvent, waitForDomChange } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  waitForDomChange,
+  waitForElement
+} from "@testing-library/react";
 import RSVP from "../components/RSVP/RSVP";
 
 const generateString = length => "a".repeat(length);
@@ -266,4 +271,58 @@ test("prevents user from adding multiple first names", async () => {
   await waitForDomChange();
 
   expect(getByText(/limit first name to one person/i)).toBeInTheDocument();
+});
+
+test("trims whitespace in form values before sending request", async () => {
+  jest.spyOn(window, "fetch").mockImplementationOnce(async () => ({
+    status: 400
+  }));
+
+  const { getByLabelText, getByText, getByRole } = render(<RSVP />);
+
+  // First page -- first name, last name
+  fireEvent.change(getByLabelText(/first name/i), {
+    target: { value: "test" }
+  });
+  fireEvent.change(getByLabelText(/last name/i), {
+    target: { value: "      user    " }
+  });
+  fireEvent.click(getByText(/next/i));
+  await waitForDomChange();
+
+  // Second page -- is attending
+  fireEvent.click(getByLabelText(/yes/i));
+  fireEvent.click(getByText(/next/i));
+  await waitForDomChange();
+
+  // Third page -- mailing address
+  fireEvent.change(getByLabelText(/mailing address/i), {
+    target: { value: "my mailing address        " }
+  });
+  fireEvent.click(getByText(/next/i));
+  await waitForDomChange();
+
+  // Fourth page -- contact information
+  fireEvent.change(getByLabelText(/contact/i), {
+    target: { value: "       my contact info" }
+  });
+  fireEvent.click(getByText(/next/i));
+  await waitForDomChange();
+
+  // Fifth page -- party members
+  fireEvent.click(getByText(/submit/i));
+
+  await waitForElement(() => getByRole("alert"));
+
+  expect(window.fetch.mock.calls[0][1].body).toBe(
+    JSON.stringify({
+      firstName: "test",
+      lastName: "user",
+      eventCode: "",
+      isAttending: true,
+      mailingAddress: "my mailing address",
+      contactInfo: "my contact info",
+      party: []
+    })
+  );
 });
