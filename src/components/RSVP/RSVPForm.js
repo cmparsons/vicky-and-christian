@@ -28,6 +28,16 @@ const validateLength = (key, maxLength = 512) => values => {
   return errors;
 };
 
+const trimWhitespace = values =>
+  Object.entries(values).reduce((input, [key, value]) => {
+    if (typeof value === "string") {
+      input[key] = value.trim();
+    } else {
+      input[key] = value;
+    }
+    return input;
+  }, {});
+
 function ErrorLabel({ name }) {
   return (
     <FormikConsumer>
@@ -128,7 +138,7 @@ export default function RSVPForm() {
       apiState={state}
       onSubmit={(values, { setSubmitting }) => {
         const body = {
-          ...values,
+          ...trimWhitespace(values),
           isAttending: values.isAttending === "true",
           party: values.party.filter(
             member => member.firstName && member.lastName
