@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trims whitespace in form values before sending request 1`] = `
+Array [
+  "fake-firebase-functions.com/rsvp",
+  Object {
+    "body": "{\\"firstName\\":\\"test\\",\\"lastName\\":\\"user\\",\\"eventCode\\":\\"\\",\\"isAttending\\":true,\\"mailingAddress\\":\\"my mailing address\\",\\"contactInfo\\":\\"my contact info\\",\\"party\\":[]}",
+    "headers": Object {
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
+`;

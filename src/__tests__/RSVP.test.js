@@ -9,6 +9,11 @@ import RSVP from "../components/RSVP/RSVP";
 
 const generateString = length => "a".repeat(length);
 
+beforeEach(() => {
+  process.env.REACT_APP_FIREBASE_FUNCTIONS = "fake-firebase-functions.com";
+  require("../components/RSVP/RSVP");
+});
+
 test("wizard goes to next page when no errors on current page", async () => {
   const { getByLabelText, getByText, queryByLabelText, queryByText } = render(
     <RSVP />
@@ -314,15 +319,6 @@ test("trims whitespace in form values before sending request", async () => {
 
   await waitForElement(() => getByRole("alert"));
 
-  expect(window.fetch.mock.calls[0][1].body).toBe(
-    JSON.stringify({
-      firstName: "test",
-      lastName: "user",
-      eventCode: "",
-      isAttending: true,
-      mailingAddress: "my mailing address",
-      contactInfo: "my contact info",
-      party: []
-    })
-  );
+  expect(window.fetch.mock.calls[0]).toMatchSnapshot();
+  expect(window.fetch).toHaveBeenCalledTimes(1);
 });

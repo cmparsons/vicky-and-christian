@@ -16,7 +16,6 @@ import CountDown from "../CountDown";
 // import MobileContainer from "./MobileContainer";
 
 import cwr from "../../assets/cwr.jpg";
-import { Link } from "@reach/router";
 
 export default function Home() {
   return (
@@ -36,7 +35,7 @@ export default function Home() {
             3:00 PM
           </h4>
           <CountDown />
-          <Button inverted as={Link} to="/rsvp">
+          <Button inverted disabled>
             RSVP Here
           </Button>
         </div>

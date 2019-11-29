@@ -4,7 +4,6 @@ import { Dimmer, Loader } from "semantic-ui-react";
 import Home from "./Home/Home";
 
 const Admin = React.lazy(() => import("./Admin/Admin"));
-const RSVP = React.lazy(() => import("./RSVP/RSVP"));
 
 function Loading() {
   return (
@@ -19,7 +18,6 @@ export default function App() {
     <React.Suspense fallback={<Loading />}>
       <Router>
         <Home path="/" />
-        <RSVP path="/rsvp" />
         <Admin path="/admin" />
       </Router>
       <footer>
